@@ -77,10 +77,10 @@ const testimonials = [
 ];
 
 const metrics = [
-  { value: 5, suffix: "+", label: "years shaping products" },
-  { value: 18, suffix: "+", label: "products designed" },
-  { value: 30, suffix: "K+", label: "people enabled" },
-  { value: 3, suffix: "×", label: "design awards" },
+  { value: 5, suffix: "+", label: "years shaping products", note: "From first sketch to shipped systems", icon: "✦" },
+  { value: 18, suffix: "+", label: "products designed", note: "Finance, AI, learning and operations", icon: "▦" },
+  { value: 30, suffix: "K+", label: "people enabled", note: "Experiences designed to work at scale", icon: "◎" },
+  { value: 3, suffix: "×", label: "design awards", note: "Craft and outcomes recognised", icon: "✎" },
 ];
 
 function Counter({ value, suffix, delay = 0 }: { value: number; suffix: string; delay?: number }) {
@@ -334,8 +334,8 @@ export default function Home() {
           </div>
         </div>
         <div className="metrics">
-          {metrics.map((m, i) => <div className="metric reveal" key={m.label} style={{ transitionDelay: `${i * 80}ms` }}>
-            <strong><Counter value={m.value} suffix={m.suffix} delay={i * 170} /></strong><p>{m.label}</p>
+          {metrics.map((m, i) => <div className="metric reveal" key={m.label} style={{ "--metric-delay": `${i * 110}ms` } as React.CSSProperties}>
+            <div className="metric-inner"><div className="metric-top"><span aria-hidden="true">{m.icon}</span><small>0{i + 1}</small></div><strong><Counter value={m.value} suffix={m.suffix} delay={i * 170} /></strong><p>{m.label}</p><em>{m.note}</em><div className="metric-sketch" aria-hidden="true"><i/><i/><i/><b/></div></div>
           </div>)}
         </div>
         <div className="road-intro reveal"><p className="hand-note">Five years. Plenty of wrong turns. One good road.</p><h3>Every stop changed<br/>how I <i>see.</i></h3><p>Scroll to drive through the moments that shaped my design practice—from learning the language of UX to making enterprise complexity feel human.</p></div>
