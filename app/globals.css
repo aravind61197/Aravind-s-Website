@@ -31,7 +31,7 @@
 .nav.glass{overflow:hidden;border:1px solid rgba(255,255,255,.52);background:linear-gradient(112deg,rgba(255,255,255,.17),rgba(255,255,255,.055) 38%,rgba(255,255,255,.2) 73%,rgba(255,255,255,.08));backdrop-filter:blur(22px) saturate(190%) contrast(108%);-webkit-backdrop-filter:blur(22px) saturate(190%) contrast(108%);box-shadow:0 20px 55px rgba(38,25,12,.13),inset 0 1.5px 1px rgba(255,255,255,.9),inset 0 -1.5px 1px rgba(255,255,255,.34),inset 9px 0 18px rgba(255,255,255,.08),inset -9px 0 18px rgba(255,255,255,.16)}
 .nav.glass:before{content:"";position:absolute;z-index:0;inset:2px;border-radius:inherit;background:radial-gradient(ellipse 36% 70% at 13% 0%,rgba(255,255,255,.7),transparent 54%),radial-gradient(ellipse 34% 90% at 87% 110%,rgba(255,255,255,.42),transparent 58%),linear-gradient(100deg,transparent 35%,rgba(255,255,255,.18) 49%,transparent 64%);opacity:.72;pointer-events:none;animation:liquidGlint 8s ease-in-out infinite}
 .nav.glass:after{content:"";position:absolute;z-index:0;left:5%;right:5%;bottom:2px;height:1px;border-radius:50%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.78),transparent);box-shadow:0 -56px 12px rgba(255,255,255,.16);pointer-events:none}
-.nav.glass>*{position:relative;z-index:1}
+.nav.glass>*{z-index:1}
 :root[data-theme="dark"] .nav.glass{border-color:rgba(255,255,255,.2);background:linear-gradient(112deg,rgba(255,255,255,.1),rgba(18,17,15,.12) 46%,rgba(255,255,255,.075));box-shadow:0 22px 65px rgba(0,0,0,.4),inset 0 1px 1px rgba(255,255,255,.3),inset 0 -1px 1px rgba(255,255,255,.1),inset 10px 0 20px rgba(169,187,216,.035),inset -10px 0 20px rgba(255,255,255,.06)}
 :root[data-theme="dark"] .nav.glass:before{background:radial-gradient(ellipse 36% 70% at 13% 0%,rgba(255,255,255,.24),transparent 54%),radial-gradient(ellipse 34% 90% at 87% 110%,rgba(169,187,216,.13),transparent 58%),linear-gradient(100deg,transparent 35%,rgba(255,255,255,.1) 49%,transparent 64%)}
 :root[data-theme="dark"] .nav.glass:after{background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent)}
@@ -300,3 +300,43 @@ body{background-color:var(--paper);background-image:linear-gradient(rgba(74,79,8
   .hero-actions .button span{visibility:visible!important;opacity:1!important;overflow:visible;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI Symbol",Arial,sans-serif;font-weight:800;text-rendering:geometricPrecision}
 }
 @media(max-width:360px){.hero h1.typed-headline{font-size:clamp(25px,7.9vw,29px)}}
+
+/* Apple-inspired liquid-glass navigation */
+.nav.glass{
+  isolation:isolate;
+  background:linear-gradient(135deg,rgba(255,255,255,.42),rgba(255,255,255,.12) 42%,rgba(255,255,255,.24));
+  border:1px solid rgba(255,255,255,.62);
+  box-shadow:0 16px 44px rgba(15,18,20,.14),inset 0 1px 0 rgba(255,255,255,.88),inset 0 -1px 0 rgba(255,255,255,.22);
+  backdrop-filter:blur(26px) saturate(190%) contrast(104%);
+  -webkit-backdrop-filter:blur(26px) saturate(190%) contrast(104%);
+}
+.nav.glass:before{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  inset:1px;
+  border-radius:inherit;
+  pointer-events:none;
+  background:linear-gradient(110deg,rgba(255,255,255,.42),transparent 32%,transparent 67%,rgba(255,255,255,.22));
+}
+.nav.glass:after{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  inset:0;
+  border-radius:inherit;
+  pointer-events:none;
+  background:radial-gradient(120% 90% at 16% -18%,rgba(255,255,255,.58),transparent 48%),radial-gradient(90% 130% at 92% 125%,rgba(173,198,210,.2),transparent 52%);
+  box-shadow:inset 0 0 22px rgba(255,255,255,.16);
+}
+.nav.glass>*{position:relative;z-index:1}
+:root[data-theme="dark"] .nav.glass{
+  background:linear-gradient(135deg,rgba(50,54,59,.55),rgba(20,23,27,.25) 48%,rgba(45,49,54,.42));
+  border-color:rgba(255,255,255,.2);
+  box-shadow:0 18px 50px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.24),inset 0 -1px 0 rgba(255,255,255,.07);
+}
+:root[data-theme="dark"] .nav.glass:before{background:linear-gradient(110deg,rgba(255,255,255,.13),transparent 34%,transparent 68%,rgba(255,255,255,.07))}
+@media(max-width:900px){
+  .nav.glass{background:linear-gradient(135deg,rgba(255,255,255,.48),rgba(255,255,255,.17) 48%,rgba(255,255,255,.3));backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%)}
+  :root[data-theme="dark"] .nav.glass{background:linear-gradient(135deg,rgba(50,54,59,.62),rgba(20,23,27,.3) 48%,rgba(45,49,54,.48))}
+}
