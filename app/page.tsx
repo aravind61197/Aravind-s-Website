@@ -291,7 +291,7 @@ export default function Home() {
         <div className="hero-copy">
           <div className="availability"><span /> Bengaluru, India · open to brave ideas</div>
           <p className="kicker scribble">Hello, I’m Aravind V.</p>
-          <h1 className="typed-headline" aria-label="I make complex products feel obvious."><span className="hero-title-light" aria-hidden="true"><TypedChars text="I make complex" start={180}/><br /><TypedChars text="products feel" start={800}/></span> <em aria-hidden="true"><TypedChars text="obvious." start={1380}/></em></h1>
+          <h1 className="typed-headline" aria-label="I make complex products feel obvious."><span className="hero-title-light" aria-hidden="true"><span className="typed-line"><TypedChars text="I make complex" start={180}/></span><br /><span className="typed-line"><TypedChars text="products feel" start={800}/></span></span> <em aria-hidden="true"><TypedChars text="obvious." start={1380}/></em></h1>
           <p className="hero-lede">Product-focused UX designer building intelligent, enterprise-scale and customer experiences with curiosity and clarity.</p>
           <div className="hero-actions">
             <a className="button primary" href="#work">See my work <span aria-hidden="true">↘</span></a>
