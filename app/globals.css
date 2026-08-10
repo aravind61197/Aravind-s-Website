@@ -289,3 +289,13 @@ body{background-color:var(--paper);background-image:linear-gradient(rgba(74,79,8
 @media(max-width:900px){.metrics{gap:16px}.metric,.metric:nth-child(2),.metric:nth-child(3),.metric:nth-child(4){min-height:275px;transform:none}.metric:nth-child(-n+2){border-bottom:1.5px dashed color-mix(in srgb,var(--ink) 42%,transparent)!important}}
 @media(max-width:560px){.metrics{grid-template-columns:1fr!important;gap:16px}.metric{min-height:245px}.metric-inner{padding:21px}.metric-top{margin-bottom:17px}.metric strong{font-size:64px!important}.metric-sketch{margin-top:20px}}
 @media(prefers-reduced-motion:reduce){.metric-inner{opacity:1!important;transform:none!important;animation:none!important}.metric:before,.metric-top>span,.metric-sketch i,.metric-sketch b{animation:none!important}.metric-sketch i{transform:scaleX(1)!important}.metric-sketch b{opacity:1!important}}
+
+/* Phone-safe hero sizing and reliable action icons */
+@media(max-width:560px){
+  .hero h1.typed-headline{display:block;width:100%;max-width:100%;font-size:clamp(27px,8.2vw,44px);line-height:1.02;letter-spacing:-.065em;text-align:center}
+  .typed-line{max-width:100%;justify-content:center}
+  .typed-line-ending{margin-inline:auto}
+  .hero-actions .button{max-width:290px;overflow:visible}
+  .hero-actions .button span{visibility:visible!important;opacity:1!important;overflow:visible;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI Symbol",Arial,sans-serif;font-weight:800;text-rendering:geometricPrecision}
+}
+@media(max-width:360px){.hero h1.typed-headline{font-size:clamp(25px,7.9vw,29px)}}
