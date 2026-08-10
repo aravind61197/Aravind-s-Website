@@ -83,27 +83,39 @@ const metrics = [
   { value: 3, suffix: "×", label: "design awards" },
 ];
 
-function Counter({ value, suffix }: { value: number; suffix: string }) {
+function Counter({ value, suffix, delay = 0 }: { value: number; suffix: string; delay?: number }) {
   const [count, setCount] = useState(0);
+  const [counting, setCounting] = useState(false);
   const ref = useRef<HTMLSpanElement>(null);
   useEffect(() => {
     const node = ref.current;
     if (!node) return;
+    let frame = 0;
+    let timer = 0;
     const observer = new IntersectionObserver(([entry]) => {
       if (!entry.isIntersecting) return;
-      const started = performance.now();
-      const tick = (now: number) => {
-        const p = Math.min((now - started) / 1100, 1);
-        setCount(Math.round(value * (1 - Math.pow(1 - p, 3))));
-        if (p < 1) requestAnimationFrame(tick);
-      };
-      requestAnimationFrame(tick);
       observer.disconnect();
-    }, { threshold: .4 });
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        setCount(value);
+        return;
+      }
+      timer = window.setTimeout(() => {
+        setCounting(true);
+        const started = performance.now();
+        const tick = (now: number) => {
+          const progress = Math.min((now - started) / 1800, 1);
+          const eased = 1 - Math.pow(1 - progress, 4);
+          setCount(Math.round(value * eased));
+          if (progress < 1) frame = requestAnimationFrame(tick);
+          else setCounting(false);
+        };
+        frame = requestAnimationFrame(tick);
+      }, delay);
+    }, { threshold: .55 });
     observer.observe(node);
-    return () => observer.disconnect();
-  }, [value]);
-  return <span ref={ref}>{count}{suffix}</span>;
+    return () => { observer.disconnect(); window.clearTimeout(timer); cancelAnimationFrame(frame); };
+  }, [value, delay]);
+  return <span ref={ref} className={`metric-counter ${counting ? 'is-counting' : ''}`} aria-label={`${value}${suffix}`}>{count}{suffix}</span>;
 }
 
 export default function Home() {
@@ -184,6 +196,7 @@ export default function Home() {
       const curveX = Math.sin(p * Math.PI * 4) * bend;
       road.style.setProperty("--car-x", `${curveX}px`);
       road.style.setProperty("--car-tilt", `${curveX * .045}deg`);
+      road.style.setProperty("--drift-smoke", `${Math.min(1, .18 + Math.abs(curveX) / Math.max(bend, 1))}`);
       road.style.setProperty("--road-fill", `${p * 100}%`);
     };
     drive();
@@ -254,7 +267,7 @@ export default function Home() {
         <div className="hero-copy">
           <div className="availability"><span /> Bengaluru, India · open to brave ideas</div>
           <p className="kicker scribble">Hello, I’m Aravind V.</p>
-          <h1>I make complex<br />products feel <em>obvious.</em></h1>
+          <h1><span className="hero-title-light">I make complex<br />products feel</span> <em>obvious.</em></h1>
           <p className="hero-lede">Product-focused UX designer building intelligent, enterprise-scale experiences with curiosity, clarity and a little bit of mischief.</p>
           <div className="hero-actions">
             <a className="button primary" href="#work">See my work <span>↘</span></a>
@@ -265,7 +278,7 @@ export default function Home() {
         <div className="hero-art" ref={heroArtRef} aria-label="Pencil illustration of Aravind designing digital products">
           <div className="ux-wireframe wire-one" aria-hidden="true"><b/><i/><i/><i/></div>
           <div className="ux-wireframe wire-two" aria-hidden="true"><b/><i/><i/></div>
-          <img className="hero-portrait-main" src="/aravind-cursor-sketch.png" alt="Hand-drawn pencil portrait of Aravind" />
+          <img className="hero-portrait-main" src="/aravind-sketch-cutout.png" alt="Hand-drawn pencil portrait of Aravind" />
           <img className="hero-photo-dark" src="/aravind-portrait-photo.png" alt="Portrait of Aravind" />
           <div className="ux-glass-card ux-card-research"><b>◎</b><span>User research<small>listen · learn</small></span></div>
           <div className="ux-glass-card ux-card-flow"><b>⌁</b><span>User flows<small>map the system</small></span></div>
@@ -297,7 +310,7 @@ export default function Home() {
         </div>
         <div className="metrics">
           {metrics.map((m, i) => <div className="metric reveal" key={m.label} style={{ transitionDelay: `${i * 80}ms` }}>
-            <strong><Counter value={m.value} suffix={m.suffix} /></strong><p>{m.label}</p>
+            <strong><Counter value={m.value} suffix={m.suffix} delay={i * 170} /></strong><p>{m.label}</p>
           </div>)}
         </div>
         <div className="road-intro reveal"><p className="hand-note">Five years. Plenty of wrong turns. One good road.</p><h3>Every stop changed<br/>how I <i>see.</i></h3><p>Scroll to drive through the moments that shaped my design practice—from learning the language of UX to making enterprise complexity feel human.</p></div>
@@ -313,12 +326,12 @@ export default function Home() {
             <div className="map-helicopter heli-a"><i/><b/><span/><em/></div><div className="map-helicopter heli-b"><i/><b/><span/><em/></div>
             <span className="map-compass">N<b>✦</b></span>
           </div>
-          <div className="road-car" aria-hidden="true"><i/><em/><span/><b/><b/></div>
+          <div className="road-car" aria-hidden="true"><div className="drift-smoke"><span/><span/><span/><span/><span/></div><img src="/journey-sedan-top-view.png" alt="" /></div>
           <span className="roadside cloud-one">☁</span><span className="roadside flag-one">⚑</span>
           <div className="bird-flock flock-one" aria-hidden="true"><i>⌁</i><i>⌁</i><i>⌁</i></div><div className="bird-flock flock-two" aria-hidden="true"><i>⌁</i><i>⌁</i></div>
           {[
             {year:'2019',place:'FULL Creative',role:'UX/UI Intern · Chennai',title:'The first mile.',copy:'I learned that a polished screen is only the end of the story. Research, flows and tiny human details became the beginning.',image:'/about-05.png',note:'Curiosity got the keys',side:'left'},
-            {year:'2020 — 2022',place:'DJ Academy of Design',role:'Master’s · Communication Design',title:'Learning to see sideways.',copy:'Branding, film, visual media and UX taught me to frame problems from more than one angle—and tell clearer stories through design.',image:'/about-03.jpeg',note:'Craft met context',side:'right'},
+            {year:'2020 — 2022',place:'DJ Academy of Design',role:'Master’s · Communication Design',title:'Learning to see sideways.',copy:'Branding, film, visual media and UX taught me to frame problems from more than one angle—and tell clearer stories through design.',image:'/dj-academy-journey.jpg',note:'Craft met context',side:'right'},
             {year:'2021 — 2022',place:'Tekion',role:'Product Designer · Bengaluru',title:'From classroom to live traffic.',copy:'Two shipped products, fast-moving teams and close stakeholder collaboration turned design theory into practical product judgment.',image:'/about-06.jpeg',note:'Real products. Real stakes.',side:'left'},
             {year:'2022 — NOW',place:'Walmart',role:'UX Designer III · EBS Fintech',title:'Designing at enterprise scale.',copy:'Today I simplify finance, tax, learning and AI workflows for tens of thousands of people—without losing sight of the person behind the process.',image:'/about-02.jpeg',note:'18+ products and counting',side:'right'},
             {year:'BEYOND THE ROADMAP',place:'Design community',role:'Mentor · Organizer · Speaker',title:'Good design travels further when shared.',copy:'I organize events, mentor interns and speak with emerging designers. The best work grows through generous teams and open conversations.',image:'/about-01.jpg',note:'Make a difference',side:'left'},
@@ -353,7 +366,15 @@ export default function Home() {
         <div className="process-grid">
           <h2 className="reveal">Clarity is a<br /><i>team sport.</i></h2>
           <div className="steps">
-            {[['Listen for the real problem','Research, context and candid conversations before pixels.'],['Make the system visible','Map the moving parts until everyone can see the same problem.'],['Prototype the decision','Use design to create alignment, learn fast and de-risk.'],['Ship, measure, sharpen','Stay close to outcomes and let real behavior improve the work.']].map((s,i)=><div className="step reveal" key={s[0]}><b>0{i+1}</b><div><h3>{s[0]}</h3><p>{s[1]}</p></div><span>→</span></div>)}
+            {[
+              {title:'Listen for the real problem',copy:'Research, context and candid conversations before pixels.',icon:'listen'},
+              {title:'Make the system visible',copy:'Map the moving parts until everyone can see the same problem.',icon:'map'},
+              {title:'Prototype the decision',copy:'Use design to create alignment, learn fast and de-risk.',icon:'prototype'},
+              {title:'Ship, measure, sharpen',copy:'Stay close to outcomes and let real behavior improve the work.',icon:'measure'},
+            ].map((s,i)=><div className="step reveal" key={s.title}>
+              <div className="step-marker"><b>0{i+1}</b><span className={`step-sketch sketch-${s.icon}`} aria-hidden="true"><i/><i/><i/><em/></span></div>
+              <div><h3>{s.title}</h3><p>{s.copy}</p></div><span className="step-arrow">→</span>
+            </div>)}
           </div>
         </div>
       </section>
