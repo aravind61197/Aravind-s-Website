@@ -250,16 +250,16 @@ export default function Home() {
       <div className="scroll-line" style={{ transform: `scaleX(${progress})` }} />
       <nav className="nav glass">
         <a className="monogram" href="#top" aria-label="Aravind’s portfolio home">Aravind’s <span>Portfolio</span></a>
-        <div className={`nav-links ${menu ? "open" : ""}`}>
+        <div className={`nav-links ${menu ? "open" : ""}`} id="portfolio-menu">
           <a href="#about" onClick={() => setMenu(false)}>About</a>
           <a href="#work" onClick={() => setMenu(false)}>Work</a>
           <a href="#contact" onClick={() => setMenu(false)}>Contact</a>
         </div>
         <div className="nav-actions">
           <button className="theme-toggle" onClick={() => setDark(v => !v)} aria-label={`Switch to ${dark ? "light" : "dark"} theme`}>
-            <span className="toggle-orbit">{dark ? "☾" : "☼"}</span>
+            <span className={`toggle-orbit ${dark ? "show-sun" : "show-moon"}`} aria-hidden="true">{dark ? "☀" : "☾"}</span>
           </button>
-          <button className="menu-button" onClick={() => setMenu(v => !v)} aria-label="Toggle menu">{menu ? "×" : "≡"}</button>
+          <button className="menu-button" onClick={() => setMenu(v => !v)} aria-label="Toggle menu" aria-expanded={menu} aria-controls="portfolio-menu">{menu ? "×" : "☰"}</button>
         </div>
       </nav>
 
@@ -393,6 +393,7 @@ export default function Home() {
         <h2>Have a knotty problem?<br /><i>Let’s untangle it.</i></h2>
         <p className="contact-copy">I’m always happy to talk about ambitious products, thoughtful teams, or why the best sticky notes are orange.</p>
         <a className="email-link" href="mailto:aravind61197@gmail.com">aravind61197@gmail.com <span>↗</span></a>
+        <a className="mobile-phone-button" href="tel:+919159445964" aria-label="Call Aravind at 9159445964"><span aria-hidden="true">☎</span>9159445964</a>
         <div className="contact-bottom"><p>Based in Bengaluru · working globally</p><div><a href="https://linkedin.com/in/aravind611/" target="_blank" rel="noreferrer">LinkedIn ↗</a><a href="/Aravind-V-Resume.pdf" target="_blank">Résumé ↗</a></div></div>
       </section>
 
