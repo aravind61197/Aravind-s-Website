@@ -270,8 +270,8 @@ export default function Home() {
           <h1><span className="hero-title-light">I make complex<br />products feel</span> <em>obvious.</em></h1>
           <p className="hero-lede">Product-focused UX designer building intelligent, enterprise-scale experiences with curiosity, clarity and a little bit of mischief.</p>
           <div className="hero-actions">
-            <a className="button primary" href="#work">See my work <span>↘</span></a>
-            <a className="button resume-button" href="/Aravind-V-Resume.pdf" target="_blank" rel="noopener noreferrer">View résumé <span>↗</span></a>
+            <a className="button primary" href="#work">See my work <span aria-hidden="true">↘</span></a>
+            <a className="button resume-button" href="/Aravind-V-Resume.pdf" target="_blank" rel="noopener noreferrer">View résumé <span aria-hidden="true">↗</span></a>
           </div>
           <div className="tiny-proof"><span className="avatar-stack">✦</span> Designing at Walmart · since 2022</div>
         </div>

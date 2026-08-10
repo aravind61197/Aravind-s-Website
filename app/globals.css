@@ -233,3 +233,26 @@ body{background-color:var(--paper);background-image:linear-gradient(rgba(74,79,8
 
 /* Scroll-reactive pencil smoke behind the drifting car */
 .road-car .drift-smoke{position:absolute;z-index:-1;left:50%;top:8px;width:70px;height:70px;translate:-50% -50%;pointer-events:none;opacity:var(--drift-smoke,.18);transition:opacity .18s}.road-car .drift-smoke span{position:absolute;left:50%;top:50%;display:block;width:15px;height:15px;border:1.5px solid color-mix(in srgb,var(--ink) 48%,transparent);border-radius:47% 53% 58% 42%;background:color-mix(in srgb,var(--paper) 74%,transparent);box-shadow:none;opacity:0;animation:driftPuff 1.45s ease-out infinite}.road-car .drift-smoke span:nth-child(2){animation-delay:-.28s;left:36%;scale:.78}.road-car .drift-smoke span:nth-child(3){animation-delay:-.56s;left:64%;scale:1.15}.road-car .drift-smoke span:nth-child(4){animation-delay:-.84s;left:43%;scale:.62}.road-car .drift-smoke span:nth-child(5){animation-delay:-1.12s;left:58%;scale:.9}@keyframes driftPuff{0%{opacity:0;transform:translate(-50%,4px) scale(.35) rotate(0)}18%{opacity:.72}100%{opacity:0;transform:translate(calc(-50% + 16px),-55px) scale(1.75) rotate(28deg)}}:root[data-theme="dark"] .road-car .drift-smoke span{background:rgba(245,244,239,.13);border-color:rgba(245,244,239,.48)}@media(prefers-reduced-motion:reduce){.road-car .drift-smoke{display:none}}
+
+/* Balanced mobile hero */
+@media(max-width:560px){
+  .hero{padding:126px 20px 64px;text-align:center;justify-items:center}
+  .hero-copy{width:100%;max-width:430px;display:flex;flex-direction:column;align-items:center}
+  .availability{display:flex;align-items:center;justify-content:center;margin:0 0 28px;font-size:10px;line-height:1.5}
+  .kicker{margin-bottom:13px}
+  .hero h1{font-size:clamp(46px,14vw,62px);line-height:.95}
+  .hero-lede{max-width:36ch;margin:25px auto 29px;line-height:1.6}
+  .hero-actions{width:100%;align-items:center;gap:16px}
+  .hero-actions .button{width:min(100%,290px);height:56px;justify-content:space-between;padding-inline:24px;text-align:left}
+  .hero-actions .button span{display:grid;place-items:center;flex:0 0 25px;width:25px;height:25px;font-family:Arial,sans-serif;font-size:20px;line-height:1}
+  .tiny-proof{justify-content:center;margin-top:32px}
+  .avatar-stack{flex:0 0 28px;font-family:Arial,sans-serif;line-height:1}
+  .hero-art{width:100%;height:370px;margin:12px 0 -12px;justify-self:center;mask-image:linear-gradient(to bottom,transparent 0%,black 8%,black 91%,transparent)}
+  .hero-art .hero-portrait-main,.hero-art .hero-photo-dark{padding:2% 0 0!important;object-position:center bottom!important}
+  .hero-art .hero-photo-dark{clip-path:inset(4% 10% 0 round 26px)!important}
+  .ux-glass-card{min-width:116px;gap:8px;text-align:left}
+  .ux-glass-card>b{flex:0 0 29px;width:29px;height:29px;font-family:Arial,sans-serif;font-size:17px;line-height:1}
+  .ux-card-research{left:0;top:26%}
+  .ux-card-flow{right:0;top:49%}
+  .ux-card-ai{left:4%;bottom:11%}
+}
