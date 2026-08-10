@@ -118,6 +118,10 @@ function Counter({ value, suffix, delay = 0 }: { value: number; suffix: string; 
   return <span ref={ref} className={`metric-counter ${counting ? 'is-counting' : ''}`} aria-label={`${value}${suffix}`}>{count}{suffix}</span>;
 }
 
+function TypedChars({ text, start = 0, speed = 44 }: { text: string; start?: number; speed?: number }) {
+  return <>{Array.from(text).map((character, index) => <span className="typed-char" style={{ "--char-delay": `${start + index * speed}ms` } as React.CSSProperties} key={`${character}-${index}`}>{character === " " ? "\u00a0" : character}</span>)}</>;
+}
+
 export default function Home() {
   const [dark, setDark] = useState(false);
   const [menu, setMenu] = useState(false);
@@ -127,7 +131,9 @@ export default function Home() {
   const [casePassword, setCasePassword] = useState("");
   const [passwordError, setPasswordError] = useState(false);
   const [unlocking, setUnlocking] = useState(false);
+  const [contactTyping, setContactTyping] = useState(false);
   const heroArtRef = useRef<HTMLDivElement>(null);
+  const contactRef = useRef<HTMLElement>(null);
   const journeyRoadRef = useRef<HTMLDivElement>(null);
   const journeyCanvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -135,6 +141,24 @@ export default function Home() {
     document.documentElement.dataset.theme = dark ? "dark" : "light";
     localStorage.setItem("theme", dark ? "dark" : "light");
   }, [dark]);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setTestimonial(current => (current + 1) % testimonials.length), 5600);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    const node = contactRef.current;
+    if (!node) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setContactTyping(true);
+        observer.disconnect();
+      }
+    }, { threshold: .35 });
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!lockedProject) return;
@@ -267,7 +291,7 @@ export default function Home() {
         <div className="hero-copy">
           <div className="availability"><span /> Bengaluru, India · open to brave ideas</div>
           <p className="kicker scribble">Hello, I’m Aravind V.</p>
-          <h1><span className="hero-title-light">I make complex<br />products feel</span> <em>obvious.</em></h1>
+          <h1 className="typed-headline" aria-label="I make complex products feel obvious."><span className="hero-title-light" aria-hidden="true"><TypedChars text="I make complex" start={180}/><br /><TypedChars text="products feel" start={800}/></span> <em aria-hidden="true"><TypedChars text="obvious." start={1380}/></em></h1>
           <p className="hero-lede">Product-focused UX designer building intelligent, enterprise-scale and customer experiences with curiosity and clarity.</p>
           <div className="hero-actions">
             <a className="button primary" href="#work">See my work <span aria-hidden="true">↘</span></a>
@@ -276,6 +300,7 @@ export default function Home() {
           <div className="tiny-proof"><span className="avatar-stack">✦</span> Designing at Walmart · since 2022</div>
         </div>
         <div className="hero-art" ref={heroArtRef} aria-label="Pencil illustration of Aravind designing digital products">
+          <div className="hero-geometry" aria-hidden="true"><i className="geo-circle"/><i className="geo-square"/><i className="geo-triangle"/><i className="geo-cross">＋</i><i className="geo-dots"/></div>
           <div className="ux-wireframe wire-one" aria-hidden="true"><b/><i/><i/><i/></div>
           <div className="ux-wireframe wire-two" aria-hidden="true"><b/><i/><i/></div>
           <img className="hero-portrait-main" src="/aravind-sketch-cutout.png" alt="Hand-drawn pencil portrait of Aravind" />
@@ -373,7 +398,7 @@ export default function Home() {
               {title:'Ship, measure, sharpen',copy:'Stay close to outcomes and let real behavior improve the work.',icon:'measure'},
             ].map((s,i)=><div className="step reveal" key={s.title}>
               <div className="step-marker"><b>0{i+1}</b><span className={`step-sketch sketch-${s.icon}`} aria-hidden="true"><i/><i/><i/><em/></span></div>
-              <div><h3>{s.title}</h3><p>{s.copy}</p></div><span className="step-arrow">→</span>
+              <div><h3>{s.title}</h3><p>{s.copy}</p></div>
             </div>)}
           </div>
         </div>
@@ -387,10 +412,10 @@ export default function Home() {
         <div className="testimonial-dots">{testimonials.map((_,i)=><button aria-label={`Show testimonial ${i+1}`} className={i===testimonial?'active':''} onClick={()=>setTestimonial(i)} key={i}/>)}</div>
       </section>
 
-      <section className="contact section" id="contact">
+      <section className={`contact section ${contactTyping ? "is-typing" : ""}`} id="contact" ref={contactRef}>
         <div className="contact-doodle">✦<span>↘</span></div>
         <p className="section-label"><span>04</span> / SAY HELLO</p>
-        <h2>Have a knotty problem?<br /><i>Let’s untangle it.</i></h2>
+        <h2 className="contact-typed-heading" aria-label="Have a knotty problem? Let’s untangle it."><span aria-hidden="true"><TypedChars text="Have a knotty problem?" speed={43}/></span><br /><i className="contact-answer" aria-hidden="true">Let’s untangle it.</i></h2>
         <p className="contact-copy">I’m always happy to talk about ambitious products, thoughtful teams, or why the best sticky notes are orange.</p>
         <a className="email-link" href="mailto:aravind61197@gmail.com">aravind61197@gmail.com <span>↗</span></a>
         <a className="mobile-phone-button" href="tel:+919159445964" aria-label="Call Aravind at 9159445964"><span aria-hidden="true">☎</span>9159445964</a>
