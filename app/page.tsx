@@ -268,7 +268,7 @@ export default function Home() {
           <div className="availability"><span /> Bengaluru, India · open to brave ideas</div>
           <p className="kicker scribble">Hello, I’m Aravind V.</p>
           <h1><span className="hero-title-light">I make complex<br />products feel</span> <em>obvious.</em></h1>
-          <p className="hero-lede">Product-focused UX designer building intelligent, enterprise-scale experiences with curiosity, clarity and a little bit of mischief.</p>
+          <p className="hero-lede">Product-focused UX designer building intelligent, enterprise-scale and customer experiences with curiosity and clarity.</p>
           <div className="hero-actions">
             <a className="button primary" href="#work">See my work <span aria-hidden="true">↘</span></a>
             <a className="button resume-button" href="/Aravind-V-Resume.pdf" target="_blank" rel="noopener noreferrer">View résumé <span aria-hidden="true">↗</span></a>
