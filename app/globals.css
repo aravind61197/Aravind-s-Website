@@ -340,3 +340,27 @@ body{background-color:var(--paper);background-image:linear-gradient(rgba(74,79,8
   .nav.glass{background:linear-gradient(135deg,rgba(218,226,230,.62),rgba(177,190,197,.34) 48%,rgba(201,213,218,.5));backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%)}
   :root[data-theme="dark"] .nav.glass{background:linear-gradient(135deg,rgba(63,72,79,.7),rgba(27,32,37,.4) 48%,rgba(51,61,68,.6))}
 }
+
+/* Colorful flat project stories with restrained motion */
+.generated-project-art{background:#fbf5e9;filter:saturate(.98) contrast(1.01)}
+.generated-project-art:after{opacity:.12;mix-blend-mode:soft-light}
+.generated-project-art img{animation:flatArtDrift 9s ease-in-out infinite;will-change:transform}
+.project-card:nth-child(2n) .generated-project-art img{animation-delay:-2.2s}
+.project-card:nth-child(3n) .generated-project-art img{animation-delay:-4.4s}
+.generated-project-art .art-glint{opacity:.28;animation-duration:9s}
+.generated-project-art .art-flow{opacity:.42;animation-duration:6.8s}
+.generated-project-art .art-flow:after{animation-duration:6.8s}
+.generated-project-art .art-dot{opacity:.65;animation-duration:4.8s}
+:root[data-theme="dark"] .generated-project-art img{filter:brightness(.88) contrast(1.05) saturate(.9)}
+@keyframes flatArtDrift{0%,100%{transform:scale(1.035) translate3d(0,0,0)}50%{transform:scale(1.065) translate3d(0,-4px,0)}}
+@media(prefers-reduced-motion:reduce){.generated-project-art img,.generated-project-art .art-glint,.generated-project-art .art-flow,.generated-project-art .art-flow:after,.generated-project-art .art-dot{animation:none!important}}
+
+/* Storybook journey map inspired by the supplied travel-map reference */
+.journey-map-backdrop{position:absolute;z-index:0;inset:0;pointer-events:none;background-image:linear-gradient(color-mix(in srgb,var(--paper) 14%,transparent),color-mix(in srgb,var(--paper) 14%,transparent)),url('/journey-map-storybook-v2.png');background-position:center top;background-repeat:repeat-y;background-size:max(100vw,1024px) auto;opacity:.48;filter:saturate(.72) contrast(.94);mix-blend-mode:multiply}
+.journey-road>.map-illustration{opacity:.2}
+.journey-road>.map-illustration .map-water,.journey-road>.map-illustration .map-park,.journey-road>.map-illustration .map-block,.journey-road>.map-illustration .city-cluster,.journey-road>.map-illustration .map-bridge,.journey-road>.map-illustration .map-trees,.journey-road>.map-illustration .map-compass{display:none}
+.journey-road>.map-illustration .rail-line,.journey-road>.map-illustration .map-plane,.journey-road>.map-illustration .map-helicopter{opacity:.55}
+:root[data-theme="dark"] .journey-map-backdrop{background-image:linear-gradient(rgba(18,21,24,.48),rgba(18,21,24,.48)),url('/journey-map-storybook-v2.png');opacity:.34;filter:grayscale(.28) brightness(.56) contrast(1.12) saturate(.58);mix-blend-mode:luminosity}
+:root[data-theme="dark"] .journey-road>.map-illustration{opacity:.16}
+@media(max-width:900px){.journey-map-backdrop{background-size:auto 1540px;opacity:.4;background-position:44% top}.journey-road>.map-illustration{opacity:.15}}
+@media(max-width:560px){.journey-map-backdrop{background-size:auto 1260px;background-position:47% top;opacity:.32}.journey-road>.map-illustration .rail-line{display:none}}

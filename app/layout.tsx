@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.aravindux.com"),
   title: "Aravind V — Product & UX Designer",
   description: "Product-focused UX designer creating intelligent enterprise experiences with measurable impact.",
-  icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
+  icons: { icon: "/icon.png", shortcut: "/icon.png", apple: "/icon.png" },
   openGraph: {
     title: "Aravind V — Product & UX Designer",
     description: "Complex products. Obvious experiences.",

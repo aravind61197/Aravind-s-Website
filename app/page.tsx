@@ -10,7 +10,7 @@ const projects = [
     eyebrow: "AI + Enterprise finance",
     description: "An end-to-end tax ecosystem that turns high-stakes compliance across 10K+ stores into one clear, auditable flow.",
     impact: "30% faster cycles",
-    image: "/project-tax-one.png",
+    image: "/project-tax-one-flat-v2.png",
     link: "https://drive.google.com/file/d/1Pe0L85NN0Q0DUt8SKb8gVsWiDnl0dk4w/view",
     accent: "tax",
     tags: ["UX strategy", "AI workflows", "Design system"],
@@ -21,7 +21,7 @@ const projects = [
     eyebrow: "Conversational research",
     description: "An AI-powered survey experience designed to make feedback feel human for customers and associates.",
     impact: "+12–15% response",
-    image: "/project-vision-ai.png",
+    image: "/project-vision-ai-flat-v2.png",
     link: "https://drive.google.com/file/d/1upFqFJy3i4A1bNs1-A_HhCo3xoQpZTpt/view",
     accent: "vision",
     tags: ["Human–AI interaction", "Research", "CX"],
@@ -32,7 +32,7 @@ const projects = [
     eyebrow: "Decision intelligence",
     description: "A redesigned planning platform that turns complex financial signals into confident, faster decisions.",
     impact: "Faster decisions",
-    image: "/project-finance-forecasting.png",
+    image: "/project-finance-forecasting-flat-v2.png",
     link: "https://drive.google.com/file/d/1lLB5VIAWwR391aBaEB6wo0YWgHKEjzvn/view",
     accent: "finance",
     tags: ["Data visualization", "Enterprise UX", "Systems thinking"],
@@ -43,7 +43,7 @@ const projects = [
     eyebrow: "Audit orchestration",
     description: "A unified command centre for planning audits, tracking evidence, managing findings and keeping every stakeholder aligned.",
     impact: "Clearer audit control",
-    image: "/project-approval-hub.png",
+    image: "/project-audit-management-flat-v2.png",
     link: "https://drive.google.com/file/d/1MYAZlFZuTquzu3zonf3cMv63XZDE2KzV/view",
     accent: "approval",
     tags: ["Enterprise UX", "Workflow design", "Data visibility"],
@@ -54,17 +54,17 @@ const projects = [
     eyebrow: "AI support experience",
     description: "Guided workflows and intelligent assistance that help agents resolve associate and customer questions with confidence.",
     impact: "Smarter resolution",
-    image: "/project-agent-accelerator.png",
+    image: "/project-agent-accelerator-flat-v2.png",
     accent: "agent",
     tags: ["Conversational UX", "AI products", "Service design"],
   },
   {
     number: "06",
-    title: "Global Training",
+    title: "Global Tech Academy",
     eyebrow: "Learning at scale",
-    description: "A unified learning and skills platform helping technology associates across the globe own their growth.",
+    description: "A unified learning and skills platform helping Walmart's Global Tech associates to track their learnings and events.",
     impact: "25K+ associates",
-    image: "/project-global-training.png",
+    image: "/project-global-tech-academy-flat-v2.png",
     accent: "learning",
     tags: ["Product design", "Learning UX", "Data visualization"],
   },
@@ -340,6 +340,7 @@ export default function Home() {
         </div>
         <div className="road-intro reveal"><p className="hand-note">Five years. Plenty of wrong turns. One good road.</p><h3>Every stop changed<br/>how I <i>see.</i></h3><p>Scroll to drive through the moments that shaped my design practice—from learning the language of UX to making enterprise complexity feel human.</p></div>
         <div className="journey-road" ref={journeyRoadRef}>
+          <div className="journey-map-backdrop" aria-hidden="true"/>
           <canvas className="journey-road-canvas" ref={journeyCanvasRef} aria-hidden="true"/>
           <div className="map-illustration" aria-hidden="true">
             <i className="map-water"/><i className="map-park park-a"/><i className="map-park park-b"/><i className="map-block block-a"/><i className="map-block block-b"/><i className="map-block block-c"/>
