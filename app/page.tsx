@@ -72,7 +72,7 @@ const projects = [
 
 const testimonials = [
   { quote: "Aravind went above and beyond. His dedication and attention to detail were flawless—he is a phenomenal designer.", name: "Vishal Bansal", role: "Senior Director, Engineering" },
-  { quote: "The trust and confidence Aravind has established is clear in how stakeholders reach out to him directly for their next engagements.", name: "Srinivasan Gopalakrishnan", role: "Senior Manager, Design" },
+  { quote: "The trust and confidence Aravind has established is clear in how stakeholders reach out to him directly for their next engagements.", name: "Srinivasan Gopalakrishnan", role: "Director UX Design" },
   { quote: "His dedication, hard work and passion for design truly made a difference. Aravind helped make Design Fest a real success.", name: "Ramesh Kozhiserry", role: "Group Director, Design" },
 ];
 
