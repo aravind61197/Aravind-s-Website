@@ -374,10 +374,15 @@ export default function Home() {
           <h2>Big systems.<br /><i>Human</i> outcomes.</h2>
           <p>Selected work across AI, finance, learning and operational platforms.</p>
         </div>
+        <div className="project-nda-note reveal" role="note">
+          <span aria-hidden="true">✦</span>
+          <p><strong>Protected by NDA.</strong> Project details can’t be shared publicly. Open the Vision.AI proof of concept for reference. To explore other projects, please reach out for the access password.</p>
+          <a href="mailto:aravind61197@gmail.com?subject=Portfolio%20access%20request">Request access <b aria-hidden="true">↗</b></a>
+        </div>
         <div className="projects">
           {projects.map((project, i) => <article className={`project-card ${project.accent} reveal`} key={project.title} style={{ transitionDelay: `${i * 70}ms` }}>
-            {project.link&&<button className="project-card-hit" type="button" onClick={()=>openProtectedProject(project.title,project.link)} aria-label={`Unlock ${project.title} case study`}/>} 
-            <div className="project-top"><span>{project.number}</span><span className="project-arrow">↗</span></div>
+            {project.link&&(project.title === "Vision.AI" ? <a className="project-card-hit" href={project.link} target="_blank" rel="noreferrer" aria-label="Open the Vision.AI proof of concept"/> : <button className="project-card-hit" type="button" onClick={()=>openProtectedProject(project.title,project.link)} aria-label={`Unlock ${project.title} case study`}/>)}
+            <div className="project-top"><span>{project.number}</span><div className="project-top-actions">{project.title === "Vision.AI"&&<span className="project-status">Proof of concept</span>}<span className="project-arrow">↗</span></div></div>
             <div className="project-visual" aria-hidden="true">
               <div className="generated-project-art"><img src={project.image} alt=""/><i className="art-glint"/><i className="art-flow"/><span className="art-dot dot-a"/><span className="art-dot dot-b"/></div>
               <div className="impact-sticker">{project.impact}</div>

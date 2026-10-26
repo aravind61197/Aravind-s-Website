@@ -377,3 +377,16 @@ body{background-color:var(--paper);background-image:linear-gradient(rgba(74,79,8
 .password-contact-links a:hover,.password-contact-links a:focus-visible{transform:translateY(-2px);border-color:#e86628;background:color-mix(in srgb,#e86628 10%,var(--paper));box-shadow:3px 4px 0 color-mix(in srgb,var(--ink) 15%,transparent);outline:none}
 :root[data-theme="dark"] .password-contact-links a:hover,:root[data-theme="dark"] .password-contact-links a:focus-visible{border-color:#ff935b;background:color-mix(in srgb,#ff935b 13%,var(--paper2))}
 @media(max-width:560px){.password-contact>div:first-child{align-items:flex-start;flex-direction:column;gap:4px}.password-contact>div:first-child span{text-align:left}.password-contact-links{grid-template-columns:1fr}.password-contact-links a{min-height:48px}}
+
+/* Project access note and public proof-of-concept badge */
+.project-nda-note{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:16px;margin:-38px 0 34px;padding:17px 18px;border:1px dashed color-mix(in srgb,var(--ink) 42%,transparent);border-radius:18px;background:color-mix(in srgb,var(--paper) 78%,transparent);box-shadow:3px 4px 0 color-mix(in srgb,var(--ink) 11%,transparent)}
+.project-nda-note>span{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#e86628;color:#151719;font-size:15px}
+.project-nda-note p{margin:0;color:var(--muted);font-size:13px;line-height:1.55}
+.project-nda-note strong{color:var(--ink)}
+.project-nda-note a{white-space:nowrap;padding:9px 13px;border-radius:99px;background:var(--ink);color:var(--paper);font-size:12px;font-weight:800;transition:transform .25s,box-shadow .25s}
+.project-nda-note a:hover,.project-nda-note a:focus-visible{transform:translateY(-2px);box-shadow:3px 4px 0 #e86628;outline:none}
+.project-nda-note a b{color:#e86628;margin-left:5px}
+.project-top-actions{display:flex;align-items:center;gap:9px}
+.project-status{display:inline-flex;align-items:center;min-height:30px;padding:0 11px;border:1px solid color-mix(in srgb,#e86628 72%,var(--ink));border-radius:99px;background:color-mix(in srgb,#e86628 13%,var(--paper));color:var(--ink);font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+:root[data-theme="dark"] .project-status{border-color:#ff935b;background:color-mix(in srgb,#ff935b 17%,var(--paper2))}
+@media(max-width:700px){.project-nda-note{grid-template-columns:auto 1fr;margin-top:-24px}.project-nda-note a{grid-column:2;justify-self:start}.project-top-actions{gap:6px}.project-status{padding-inline:9px;font-size:9px}}
