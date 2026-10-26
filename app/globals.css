@@ -364,3 +364,16 @@ body{background-color:var(--paper);background-image:linear-gradient(rgba(74,79,8
 :root[data-theme="dark"] .journey-road>.map-illustration{opacity:.16}
 @media(max-width:900px){.journey-map-backdrop{background-size:auto 1540px;opacity:.4;background-position:44% top}.journey-road>.map-illustration{opacity:.15}}
 @media(max-width:560px){.journey-map-backdrop{background-size:auto 1260px;background-position:47% top;opacity:.32}.journey-road>.map-illustration .rail-line{display:none}}
+
+/* Password request shortcuts */
+.password-dialog{max-height:calc(100svh - 44px);overflow-y:auto}
+.password-contact{margin-top:25px;padding-top:20px;border-top:1px dashed color-mix(in srgb,var(--ink) 30%,transparent)}
+.password-contact>div:first-child{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.password-contact strong{font-size:13px}
+.password-contact>div:first-child span{color:var(--muted);font-size:11px;text-align:right}
+.password-contact-links{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:13px}
+.password-contact-links a{min-height:49px;padding:8px 14px;border:1px solid color-mix(in srgb,var(--ink) 34%,transparent);border-radius:14px;background:color-mix(in srgb,var(--paper) 72%,transparent);display:flex;align-items:center;justify-content:center;gap:9px;font-size:13px;font-weight:800;transition:transform .25s,border-color .25s,background .25s,box-shadow .25s}
+.password-contact-links a i{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:var(--paper);font:700 13px/1 Arial,sans-serif;font-style:normal}
+.password-contact-links a:hover,.password-contact-links a:focus-visible{transform:translateY(-2px);border-color:#e86628;background:color-mix(in srgb,#e86628 10%,var(--paper));box-shadow:3px 4px 0 color-mix(in srgb,var(--ink) 15%,transparent);outline:none}
+:root[data-theme="dark"] .password-contact-links a:hover,:root[data-theme="dark"] .password-contact-links a:focus-visible{border-color:#ff935b;background:color-mix(in srgb,#ff935b 13%,var(--paper2))}
+@media(max-width:560px){.password-contact>div:first-child{align-items:flex-start;flex-direction:column;gap:4px}.password-contact>div:first-child span{text-align:left}.password-contact-links{grid-template-columns:1fr}.password-contact-links a{min-height:48px}}
