@@ -10,7 +10,7 @@ const projects = [
     eyebrow: "AI + Enterprise finance",
     description: "An end-to-end tax ecosystem that turns high-stakes compliance across 10K+ stores into one clear, auditable flow.",
     impact: "30% faster cycles",
-    image: "/project-tax-one.png",
+    image: "/project-tax-one-flat-v2.png",
     link: "https://drive.google.com/file/d/1Pe0L85NN0Q0DUt8SKb8gVsWiDnl0dk4w/view",
     accent: "tax",
     tags: ["UX strategy", "AI workflows", "Design system"],
@@ -21,7 +21,7 @@ const projects = [
     eyebrow: "Conversational research",
     description: "An AI-powered survey experience designed to make feedback feel human for customers and associates.",
     impact: "+12–15% response",
-    image: "/project-vision-ai.png",
+    image: "/project-vision-ai-flat-v2.png",
     link: "https://drive.google.com/file/d/1upFqFJy3i4A1bNs1-A_HhCo3xoQpZTpt/view",
     accent: "vision",
     tags: ["Human–AI interaction", "Research", "CX"],
@@ -32,7 +32,7 @@ const projects = [
     eyebrow: "Decision intelligence",
     description: "A redesigned planning platform that turns complex financial signals into confident, faster decisions.",
     impact: "Faster decisions",
-    image: "/project-finance-forecasting.png",
+    image: "/project-finance-forecasting-flat-v2.png",
     link: "https://drive.google.com/file/d/1lLB5VIAWwR391aBaEB6wo0YWgHKEjzvn/view",
     accent: "finance",
     tags: ["Data visualization", "Enterprise UX", "Systems thinking"],
@@ -43,7 +43,7 @@ const projects = [
     eyebrow: "Audit orchestration",
     description: "A unified command centre for planning audits, tracking evidence, managing findings and keeping every stakeholder aligned.",
     impact: "Clearer audit control",
-    image: "/project-approval-hub.png",
+    image: "/project-audit-management-flat-v2.png",
     link: "https://drive.google.com/file/d/1MYAZlFZuTquzu3zonf3cMv63XZDE2KzV/view",
     accent: "approval",
     tags: ["Enterprise UX", "Workflow design", "Data visibility"],
@@ -54,17 +54,17 @@ const projects = [
     eyebrow: "AI support experience",
     description: "Guided workflows and intelligent assistance that help agents resolve associate and customer questions with confidence.",
     impact: "Smarter resolution",
-    image: "/project-agent-accelerator.png",
+    image: "/project-agent-accelerator-flat-v2.png",
     accent: "agent",
     tags: ["Conversational UX", "AI products", "Service design"],
   },
   {
     number: "06",
-    title: "Global Training",
+    title: "Global Tech Academy",
     eyebrow: "Learning at scale",
-    description: "A unified learning and skills platform helping technology associates across the globe own their growth.",
+    description: "A unified learning and skills platform helping Walmart's Global Tech associates to track their learnings and events.",
     impact: "25K+ associates",
-    image: "/project-global-training.png",
+    image: "/project-global-tech-academy-flat-v2.png",
     accent: "learning",
     tags: ["Product design", "Learning UX", "Data visualization"],
   },
@@ -72,38 +72,54 @@ const projects = [
 
 const testimonials = [
   { quote: "Aravind went above and beyond. His dedication and attention to detail were flawless—he is a phenomenal designer.", name: "Vishal Bansal", role: "Senior Director, Engineering" },
-  { quote: "The trust and confidence Aravind has established is clear in how stakeholders reach out to him directly for their next engagements.", name: "Srinivasan Gopalakrishnan", role: "Senior Manager, Design" },
+  { quote: "The trust and confidence Aravind has established is clear in how stakeholders reach out to him directly for their next engagements.", name: "Srinivasan Gopalakrishnan", role: "Director UX Design" },
   { quote: "His dedication, hard work and passion for design truly made a difference. Aravind helped make Design Fest a real success.", name: "Ramesh Kozhiserry", role: "Group Director, Design" },
 ];
 
 const metrics = [
-  { value: 5, suffix: "+", label: "years shaping products" },
-  { value: 18, suffix: "+", label: "products designed" },
-  { value: 30, suffix: "K+", label: "people enabled" },
-  { value: 3, suffix: "×", label: "design awards" },
+  { value: 5, suffix: "+", label: "years shaping products", note: "From first sketch to shipped systems", icon: "✦" },
+  { value: 18, suffix: "+", label: "products designed", note: "Finance, AI, learning and operations", icon: "▦" },
+  { value: 30, suffix: "K+", label: "people enabled", note: "Experiences designed to work at scale", icon: "◎" },
+  { value: 3, suffix: "×", label: "design awards", note: "Craft and outcomes recognised", icon: "✎" },
 ];
 
-function Counter({ value, suffix }: { value: number; suffix: string }) {
+function Counter({ value, suffix, delay = 0 }: { value: number; suffix: string; delay?: number }) {
   const [count, setCount] = useState(0);
+  const [counting, setCounting] = useState(false);
   const ref = useRef<HTMLSpanElement>(null);
   useEffect(() => {
     const node = ref.current;
     if (!node) return;
+    let frame = 0;
+    let timer = 0;
     const observer = new IntersectionObserver(([entry]) => {
       if (!entry.isIntersecting) return;
-      const started = performance.now();
-      const tick = (now: number) => {
-        const p = Math.min((now - started) / 1100, 1);
-        setCount(Math.round(value * (1 - Math.pow(1 - p, 3))));
-        if (p < 1) requestAnimationFrame(tick);
-      };
-      requestAnimationFrame(tick);
       observer.disconnect();
-    }, { threshold: .4 });
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        setCount(value);
+        return;
+      }
+      timer = window.setTimeout(() => {
+        setCounting(true);
+        const started = performance.now();
+        const tick = (now: number) => {
+          const progress = Math.min((now - started) / 1800, 1);
+          const eased = 1 - Math.pow(1 - progress, 4);
+          setCount(Math.round(value * eased));
+          if (progress < 1) frame = requestAnimationFrame(tick);
+          else setCounting(false);
+        };
+        frame = requestAnimationFrame(tick);
+      }, delay);
+    }, { threshold: .55 });
     observer.observe(node);
-    return () => observer.disconnect();
-  }, [value]);
-  return <span ref={ref}>{count}{suffix}</span>;
+    return () => { observer.disconnect(); window.clearTimeout(timer); cancelAnimationFrame(frame); };
+  }, [value, delay]);
+  return <span ref={ref} className={`metric-counter ${counting ? 'is-counting' : ''}`} aria-label={`${value}${suffix}`}>{count}{suffix}</span>;
+}
+
+function TypedChars({ text, start = 0, speed = 44 }: { text: string; start?: number; speed?: number }) {
+  return <>{Array.from(text).map((character, index) => <span className="typed-char" style={{ "--char-delay": `${start + index * speed}ms` } as React.CSSProperties} key={`${character}-${index}`}>{character === " " ? "\u00a0" : character}</span>)}</>;
 }
 
 export default function Home() {
@@ -115,7 +131,9 @@ export default function Home() {
   const [casePassword, setCasePassword] = useState("");
   const [passwordError, setPasswordError] = useState(false);
   const [unlocking, setUnlocking] = useState(false);
+  const [contactTyping, setContactTyping] = useState(false);
   const heroArtRef = useRef<HTMLDivElement>(null);
+  const contactRef = useRef<HTMLElement>(null);
   const journeyRoadRef = useRef<HTMLDivElement>(null);
   const journeyCanvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -123,6 +141,24 @@ export default function Home() {
     document.documentElement.dataset.theme = dark ? "dark" : "light";
     localStorage.setItem("theme", dark ? "dark" : "light");
   }, [dark]);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setTestimonial(current => (current + 1) % testimonials.length), 5600);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    const node = contactRef.current;
+    if (!node) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setContactTyping(true);
+        observer.disconnect();
+      }
+    }, { threshold: .35 });
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!lockedProject) return;
@@ -184,6 +220,7 @@ export default function Home() {
       const curveX = Math.sin(p * Math.PI * 4) * bend;
       road.style.setProperty("--car-x", `${curveX}px`);
       road.style.setProperty("--car-tilt", `${curveX * .045}deg`);
+      road.style.setProperty("--drift-smoke", `${Math.min(1, .18 + Math.abs(curveX) / Math.max(bend, 1))}`);
       road.style.setProperty("--road-fill", `${p * 100}%`);
     };
     drive();
@@ -237,16 +274,16 @@ export default function Home() {
       <div className="scroll-line" style={{ transform: `scaleX(${progress})` }} />
       <nav className="nav glass">
         <a className="monogram" href="#top" aria-label="Aravind’s portfolio home">Aravind’s <span>Portfolio</span></a>
-        <div className={`nav-links ${menu ? "open" : ""}`}>
+        <div className={`nav-links ${menu ? "open" : ""}`} id="portfolio-menu">
           <a href="#about" onClick={() => setMenu(false)}>About</a>
           <a href="#work" onClick={() => setMenu(false)}>Work</a>
           <a href="#contact" onClick={() => setMenu(false)}>Contact</a>
         </div>
         <div className="nav-actions">
           <button className="theme-toggle" onClick={() => setDark(v => !v)} aria-label={`Switch to ${dark ? "light" : "dark"} theme`}>
-            <span className="toggle-orbit">{dark ? "☾" : "☼"}</span>
+            <span className={`toggle-orbit ${dark ? "show-sun" : "show-moon"}`} aria-hidden="true">{dark ? "☀" : "☾"}</span>
           </button>
-          <button className="menu-button" onClick={() => setMenu(v => !v)} aria-label="Toggle menu">{menu ? "×" : "≡"}</button>
+          <button className="menu-button" onClick={() => setMenu(v => !v)} aria-label="Toggle menu" aria-expanded={menu} aria-controls="portfolio-menu">{menu ? "×" : "☰"}</button>
         </div>
       </nav>
 
@@ -254,18 +291,19 @@ export default function Home() {
         <div className="hero-copy">
           <div className="availability"><span /> Bengaluru, India · open to brave ideas</div>
           <p className="kicker scribble">Hello, I’m Aravind V.</p>
-          <h1>I make complex<br />products feel <em>obvious.</em></h1>
-          <p className="hero-lede">Product-focused UX designer building intelligent, enterprise-scale experiences with curiosity, clarity and a little bit of mischief.</p>
+          <h1 className="typed-headline" aria-label="I make complex products feel obvious."><span className="hero-title-light" aria-hidden="true"><span className="typed-line"><TypedChars text="I make complex" start={180}/></span><br /></span><span className="typed-line typed-line-ending" aria-hidden="true"><span className="hero-title-light"><TypedChars text="products feel" start={800}/></span><span className="typed-gap">&nbsp;</span><em><TypedChars text="obvious." start={1380}/></em></span></h1>
+          <p className="hero-lede">Product-focused UX designer building intelligent, enterprise-scale and customer experiences with curiosity and clarity.</p>
           <div className="hero-actions">
-            <a className="button primary" href="#work">See my work <span>↘</span></a>
-            <a className="button resume-button" href="/Aravind-V-Resume.pdf" target="_blank" rel="noopener noreferrer">View résumé <span>↗</span></a>
+            <a className="button primary" href="#work">See my work <span aria-hidden="true">↘</span></a>
+            <a className="button resume-button" href="/Aravind-V-Resume.pdf" target="_blank" rel="noopener noreferrer">View résumé <span aria-hidden="true">↗</span></a>
           </div>
           <div className="tiny-proof"><span className="avatar-stack">✦</span> Designing at Walmart · since 2022</div>
         </div>
         <div className="hero-art" ref={heroArtRef} aria-label="Pencil illustration of Aravind designing digital products">
+          <div className="hero-geometry" aria-hidden="true"><i className="geo-circle"/><i className="geo-square"/><i className="geo-triangle"/><i className="geo-cross">＋</i><i className="geo-dots"/></div>
           <div className="ux-wireframe wire-one" aria-hidden="true"><b/><i/><i/><i/></div>
           <div className="ux-wireframe wire-two" aria-hidden="true"><b/><i/><i/></div>
-          <img className="hero-portrait-main" src="/aravind-cursor-sketch.png" alt="Hand-drawn pencil portrait of Aravind" />
+          <img className="hero-portrait-main" src="/aravind-sketch-cutout.png" alt="Hand-drawn pencil portrait of Aravind" />
           <img className="hero-photo-dark" src="/aravind-portrait-photo.png" alt="Portrait of Aravind" />
           <div className="ux-glass-card ux-card-research"><b>◎</b><span>User research<small>listen · learn</small></span></div>
           <div className="ux-glass-card ux-card-flow"><b>⌁</b><span>User flows<small>map the system</small></span></div>
@@ -296,12 +334,13 @@ export default function Home() {
           </div>
         </div>
         <div className="metrics">
-          {metrics.map((m, i) => <div className="metric reveal" key={m.label} style={{ transitionDelay: `${i * 80}ms` }}>
-            <strong><Counter value={m.value} suffix={m.suffix} /></strong><p>{m.label}</p>
+          {metrics.map((m, i) => <div className="metric reveal" key={m.label} style={{ "--metric-delay": `${i * 110}ms` } as React.CSSProperties}>
+            <div className="metric-inner"><div className="metric-top"><span aria-hidden="true">{m.icon}</span><small>0{i + 1}</small></div><strong><Counter value={m.value} suffix={m.suffix} delay={i * 170} /></strong><p>{m.label}</p><em>{m.note}</em><div className="metric-sketch" aria-hidden="true"><i/><i/><i/><b/></div></div>
           </div>)}
         </div>
         <div className="road-intro reveal"><p className="hand-note">Five years. Plenty of wrong turns. One good road.</p><h3>Every stop changed<br/>how I <i>see.</i></h3><p>Scroll to drive through the moments that shaped my design practice—from learning the language of UX to making enterprise complexity feel human.</p></div>
         <div className="journey-road" ref={journeyRoadRef}>
+          <div className="journey-map-backdrop" aria-hidden="true"/>
           <canvas className="journey-road-canvas" ref={journeyCanvasRef} aria-hidden="true"/>
           <div className="map-illustration" aria-hidden="true">
             <i className="map-water"/><i className="map-park park-a"/><i className="map-park park-b"/><i className="map-block block-a"/><i className="map-block block-b"/><i className="map-block block-c"/>
@@ -313,12 +352,12 @@ export default function Home() {
             <div className="map-helicopter heli-a"><i/><b/><span/><em/></div><div className="map-helicopter heli-b"><i/><b/><span/><em/></div>
             <span className="map-compass">N<b>✦</b></span>
           </div>
-          <div className="road-car" aria-hidden="true"><i/><em/><span/><b/><b/></div>
+          <div className="road-car" aria-hidden="true"><div className="drift-smoke"><span/><span/><span/><span/><span/></div><img src="/journey-sedan-top-view.png" alt="" /></div>
           <span className="roadside cloud-one">☁</span><span className="roadside flag-one">⚑</span>
           <div className="bird-flock flock-one" aria-hidden="true"><i>⌁</i><i>⌁</i><i>⌁</i></div><div className="bird-flock flock-two" aria-hidden="true"><i>⌁</i><i>⌁</i></div>
           {[
             {year:'2019',place:'FULL Creative',role:'UX/UI Intern · Chennai',title:'The first mile.',copy:'I learned that a polished screen is only the end of the story. Research, flows and tiny human details became the beginning.',image:'/about-05.png',note:'Curiosity got the keys',side:'left'},
-            {year:'2020 — 2022',place:'DJ Academy of Design',role:'Master’s · Communication Design',title:'Learning to see sideways.',copy:'Branding, film, visual media and UX taught me to frame problems from more than one angle—and tell clearer stories through design.',image:'/about-03.jpeg',note:'Craft met context',side:'right'},
+            {year:'2020 — 2022',place:'DJ Academy of Design',role:'Master’s · Communication Design',title:'Learning to see sideways.',copy:'Branding, film, visual media and UX taught me to frame problems from more than one angle—and tell clearer stories through design.',image:'/dj-academy-journey.jpg',note:'Craft met context',side:'right'},
             {year:'2021 — 2022',place:'Tekion',role:'Product Designer · Bengaluru',title:'From classroom to live traffic.',copy:'Two shipped products, fast-moving teams and close stakeholder collaboration turned design theory into practical product judgment.',image:'/about-06.jpeg',note:'Real products. Real stakes.',side:'left'},
             {year:'2022 — NOW',place:'Walmart',role:'UX Designer III · EBS Fintech',title:'Designing at enterprise scale.',copy:'Today I simplify finance, tax, learning and AI workflows for tens of thousands of people—without losing sight of the person behind the process.',image:'/about-02.jpeg',note:'18+ products and counting',side:'right'},
             {year:'BEYOND THE ROADMAP',place:'Design community',role:'Mentor · Organizer · Speaker',title:'Good design travels further when shared.',copy:'I organize events, mentor interns and speak with emerging designers. The best work grows through generous teams and open conversations.',image:'/about-01.jpg',note:'Make a difference',side:'left'},
@@ -335,10 +374,15 @@ export default function Home() {
           <h2>Big systems.<br /><i>Human</i> outcomes.</h2>
           <p>Selected work across AI, finance, learning and operational platforms.</p>
         </div>
+        <div className="project-nda-note reveal" role="note">
+          <span aria-hidden="true">✦</span>
+          <p><strong>Protected by NDA.</strong> Project details can’t be shared publicly. Open the Vision.AI proof of concept for reference. To explore other projects, please reach out for the access password.</p>
+          <a href="mailto:aravind61197@gmail.com?subject=Portfolio%20access%20request">Request access <b aria-hidden="true">↗</b></a>
+        </div>
         <div className="projects">
           {projects.map((project, i) => <article className={`project-card ${project.accent} reveal`} key={project.title} style={{ transitionDelay: `${i * 70}ms` }}>
-            {project.link&&<button className="project-card-hit" type="button" onClick={()=>openProtectedProject(project.title,project.link)} aria-label={`Unlock ${project.title} case study`}/>} 
-            <div className="project-top"><span>{project.number}</span><span className="project-arrow">↗</span></div>
+            {project.link&&(project.title === "Vision.AI" ? <a className="project-card-hit" href={project.link} target="_blank" rel="noreferrer" aria-label="Open the Vision.AI proof of concept"/> : <button className="project-card-hit" type="button" onClick={()=>openProtectedProject(project.title,project.link)} aria-label={`Unlock ${project.title} case study`}/>)}
+            <div className="project-top"><span>{project.number}</span><div className="project-top-actions">{project.title === "Vision.AI"&&<span className="project-status">Proof of concept</span>}<span className="project-arrow">↗</span></div></div>
             <div className="project-visual" aria-hidden="true">
               <div className="generated-project-art"><img src={project.image} alt=""/><i className="art-glint"/><i className="art-flow"/><span className="art-dot dot-a"/><span className="art-dot dot-b"/></div>
               <div className="impact-sticker">{project.impact}</div>
@@ -353,7 +397,15 @@ export default function Home() {
         <div className="process-grid">
           <h2 className="reveal">Clarity is a<br /><i>team sport.</i></h2>
           <div className="steps">
-            {[['Listen for the real problem','Research, context and candid conversations before pixels.'],['Make the system visible','Map the moving parts until everyone can see the same problem.'],['Prototype the decision','Use design to create alignment, learn fast and de-risk.'],['Ship, measure, sharpen','Stay close to outcomes and let real behavior improve the work.']].map((s,i)=><div className="step reveal" key={s[0]}><b>0{i+1}</b><div><h3>{s[0]}</h3><p>{s[1]}</p></div><span>→</span></div>)}
+            {[
+              {title:'Listen for the real problem',copy:'Research, context and candid conversations before pixels.',icon:'listen'},
+              {title:'Make the system visible',copy:'Map the moving parts until everyone can see the same problem.',icon:'map'},
+              {title:'Prototype the decision',copy:'Use design to create alignment, learn fast and de-risk.',icon:'prototype'},
+              {title:'Ship, measure, sharpen',copy:'Stay close to outcomes and let real behavior improve the work.',icon:'measure'},
+            ].map((s,i)=><div className="step reveal" key={s.title}>
+              <div className="step-marker"><b>0{i+1}</b><span className={`step-sketch sketch-${s.icon}`} aria-hidden="true"><i/><i/><i/><em/></span></div>
+              <div><h3>{s.title}</h3><p>{s.copy}</p></div>
+            </div>)}
           </div>
         </div>
       </section>
@@ -366,17 +418,18 @@ export default function Home() {
         <div className="testimonial-dots">{testimonials.map((_,i)=><button aria-label={`Show testimonial ${i+1}`} className={i===testimonial?'active':''} onClick={()=>setTestimonial(i)} key={i}/>)}</div>
       </section>
 
-      <section className="contact section" id="contact">
+      <section className={`contact section ${contactTyping ? "is-typing" : ""}`} id="contact" ref={contactRef}>
         <div className="contact-doodle">✦<span>↘</span></div>
         <p className="section-label"><span>04</span> / SAY HELLO</p>
-        <h2>Have a knotty problem?<br /><i>Let’s untangle it.</i></h2>
+        <h2 className="contact-typed-heading" aria-label="Have a knotty problem? Let’s untangle it."><span aria-hidden="true"><TypedChars text="Have a knotty problem?" speed={43}/></span><br /><i className="contact-answer" aria-hidden="true">Let’s untangle it.</i></h2>
         <p className="contact-copy">I’m always happy to talk about ambitious products, thoughtful teams, or why the best sticky notes are orange.</p>
         <a className="email-link" href="mailto:aravind61197@gmail.com">aravind61197@gmail.com <span>↗</span></a>
+        <a className="mobile-phone-button" href="tel:+919159445964" aria-label="Call Aravind at 9159445964"><span aria-hidden="true">☎</span>9159445964</a>
         <div className="contact-bottom"><p>Based in Bengaluru · working globally</p><div><a href="https://linkedin.com/in/aravind611/" target="_blank" rel="noreferrer">LinkedIn ↗</a><a href="/Aravind-V-Resume.pdf" target="_blank">Résumé ↗</a></div></div>
       </section>
 
       <footer><span>© 2026 Aravind V</span><span>Designed with curiosity &amp; caffeine ☕</span><a href="#top">Back to top ↑</a></footer>
-      {lockedProject&&<div className={`password-modal ${unlocking?'is-unlocking':''}`} role="presentation" onMouseDown={(event)=>!unlocking&&event.target===event.currentTarget&&setLockedProject(null)}><div className="password-dialog glass" role="dialog" aria-modal="true" aria-labelledby="password-title"><button className="modal-close" type="button" disabled={unlocking} onClick={()=>setLockedProject(null)} aria-label="Close password dialog">×</button><div className="lock-sketch" aria-hidden="true"><i/><b>✦</b></div><p>PROTECTED CASE STUDY</p><h3 id="password-title">{unlocking?'Access granted':`Unlock ${lockedProject.title}`}</h3>{unlocking?<div className="redirect-state" role="status"><div className="redirect-track"><i/></div><strong>Opening the document…</strong><span>Taking you to the case study securely.</span></div>:<><span>This work contains confidential project details. Enter the portfolio password to continue.</span><form onSubmit={unlockProject}><label htmlFor="case-password">Password</label><div className={`password-field ${passwordError?'error':''}`}><input id="case-password" type="password" value={casePassword} onChange={(event)=>{setCasePassword(event.target.value);setPasswordError(false)}} autoFocus autoComplete="current-password" placeholder="Enter password" aria-invalid={passwordError}/><button type="submit">Unlock <b>↗</b></button></div>{passwordError&&<small className="password-error" role="alert"><b>!</b> Incorrect password. Please check it and try again.</small>}</form></>}</div></div>}
+      {lockedProject&&<div className={`password-modal ${unlocking?'is-unlocking':''}`} role="presentation" onMouseDown={(event)=>!unlocking&&event.target===event.currentTarget&&setLockedProject(null)}><div className="password-dialog glass" role="dialog" aria-modal="true" aria-labelledby="password-title"><button className="modal-close" type="button" disabled={unlocking} onClick={()=>setLockedProject(null)} aria-label="Close password dialog">×</button><div className="lock-sketch" aria-hidden="true"><i/><b>✦</b></div><p>PROTECTED CASE STUDY</p><h3 id="password-title">{unlocking?'Access granted':`Unlock ${lockedProject.title}`}</h3>{unlocking?<div className="redirect-state" role="status"><div className="redirect-track"><i/></div><strong>Opening the document…</strong><span>Taking you to the case study securely.</span></div>:<><span>This work contains confidential project details. Enter the portfolio password to continue.</span><form onSubmit={unlockProject}><label htmlFor="case-password">Password</label><div className={`password-field ${passwordError?'error':''}`}><input id="case-password" type="password" value={casePassword} onChange={(event)=>{setCasePassword(event.target.value);setPasswordError(false)}} autoFocus autoComplete="current-password" placeholder="Enter password" aria-invalid={passwordError}/><button type="submit">Unlock <b>↗</b></button></div>{passwordError&&<small className="password-error" role="alert"><b>!</b> Incorrect password. Please check it and try again.</small>}</form><div className="password-contact"><div><strong>Need the password?</strong><span>Reach out and I’ll help you get access.</span></div><div className="password-contact-links"><a href={`mailto:aravind61197@gmail.com?subject=${encodeURIComponent(`Portfolio access request — ${lockedProject.title}`)}`} aria-label="Email Aravind to request the portfolio password"><i aria-hidden="true">✉</i><span>Email me</span></a><a href="tel:+919159445964" aria-label="Call Aravind at 9159445964 to request the portfolio password"><i aria-hidden="true">☎</i><span>Call me</span></a></div></div></>}</div></div>}
     </main>
   );
 }
